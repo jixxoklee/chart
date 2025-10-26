@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FGI Base Series Dashboard</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background: #0b1020; color: #e8eaf6; }
+    header { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    h1 { font-size: 18px; margin: 0 0 4px 0; }
+    p.sub { margin: 0; opacity: 0.75; font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 16px; }
+    .card { background: #0f1530; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 10px; }
+    .title { font-size: 13px; margin: 0 0 8px 2px; opacity: .9; }
+    .tvwrap { height: 380px; }
+    .tvwrap.tall { height: 460px; }
+    .note { font-size: 11px; opacity: 0.75; margin-top: 6px; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .tvwrap { height: 320px; }
+    }
+    a { color: #9fb8ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fear &amp; Greed 구성 지표 차트</h1>
+    <p class="sub">시간대: Asia/Seoul · 위젯 데이터는 거래소/구독 상태에 따라 지연될 수 있습니다.</p>
+  </header>
+
+  <section class="grid">
+    <!-- Momentum: S&P 500 (MA 추가로 125일 설정 권장) -->
+    <div class="card">
+      <p class="title">Momentum — S&amp;P 500 (MA 125 설정 권장)</p>
+      <div class="tvwrap" id="spx"></div>
+      <p class="note">차트 상단의 <b>인디케이터</b>에서 <b>Moving Average</b> 길이를 125로 변경하십시오.</p>
+    </div>
+
+    <!-- Volatility: VIX -->
+    <div class="card">
+      <p class="title">Volatility — CBOE VIX</p>
+      <div class="tvwrap" id="vix"></div>
+    </div>
+
+    <!-- Put/Call Ratio: CBOE Equity Put/Call -->
+    <div class="card">
+      <p class="title">Put/Call Ratio — CBOE Equity (PCCE)</p>
+      <div class="tvwrap" id="pcce"></div>
+    </div>
+
+    <!-- Junk Bond Spread: ICE BofA HY OAS (FRED) -->
+    <div class="card">
+      <p class="title">Junk Bond Spread — ICE BofA US HY OAS (FRED)</p>
+      <div class="tvwrap" id="hysp"></div>
+    </div>
+
+    <!-- Price Strength: NYSE 52-week Highs -->
+    <div class="card">
+      <p class="title">Price Strength — NYSE New Highs (HIGN)</p>
+      <div class="tvwrap" id="hign"></div>
+    </div>
+
+    <!-- Price Strength: NYSE 52-week Lows -->
+    <div class="card">
+      <p class="title">Price Strength — NYSE New Lows (LOWN)</p>
+      <div class="tvwrap" id="lown"></div>
+    </div>
+
+    <!-- Market Breadth: NYSE Up/Down Volume -->
+    <div class="card">
+      <p class="title">Breadth — NYSE Up/Down Volume (UVOL &amp; DVOL)</p>
+      <div class="tvwrap" id="uvol"></div>
+      <p class="note">상단 <b>Compare</b>에서 <code>USI:DVOL</code>을 추가해 비율/괴리를 함께 보십시오.</p>
+    </div>
+
+    <!-- Safe Haven Demand: Stocks vs Bonds (SPY vs TLT) -->
+    <div class="card">
+      <p class="title">Safe Haven Demand — SPY vs TLT (상대강도 비교)</p>
+      <div class="tvwrap tall" id="spyvstlt"></div>
+    </div>
+  </section>
+
+  <!-- TradingView Embeds -->
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "SP:SPX",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "12M",
+    "studies": [
+      "Moving Average@tv-basicstudies",
+      "Volume@tv-basicstudies"
+    ],
+    "container_id": "spx"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "CBOE:VIX",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "12M",
+    "container_id": "vix"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "USI:PCCE",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "24M",
+    "container_id": "pcce"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "FRED:BAMLH0A0HYM2",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "60M",
+    "container_id": "hysp"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "INDEX:HIGN",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "24M",
+    "container_id": "hign"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "INDEX:LOWN",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": false,
+    "withdateranges": true,
+    "range": "24M",
+    "container_id": "lown"
+  }
+  </script>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+    "symbol": "USI:UVOL",
+    "timezone": "Asia/Seoul",
+    "autosize": true,
+    "theme": "dark",
+    "allow_symbol_change": true,
+    "withdateranges": true,
+    "range": "12M",
+    "container_id": "uvol"
+  }
+  </script>
+
+  <!-- Symbol Overview compare: SPY vs TLT -->
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+  {
+    "symbols": [
+      [ "SPY", "AMEX:SPY|1D" ]
+    ],
+    "compareSymbol": { "symbol": "AMEX:TLT" },
+    "chartOnly": true,
+    "autosize": true,
+    "locale": "en",
+    "colorTheme": "dark",
+    "scaleMode": "Percentage",
+    "showMA": false,
+    "showVolume": false,
+    "dateRanges": [ "1m|60", "3m|60", "6m|1D", "12m|1D", "All|1W" ],
+    "container_id": "spyvstlt"
+  }
+  </script>
+
+</body>
+</html>
