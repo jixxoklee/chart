@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Chart (TradingView)</title>
+  <style>
+    html, body { margin: 0; height: 100%; }
+    .tradingview-widget-container { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright">
+      <a href="https://www.tradingview.com/" rel="noopener" target="_blank"><span>Charts</span></a> by TradingView
+    </div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+    {
+      "autosize": true,
+      "symbol": "NASDAQ:QQQ",
+      "interval": "60",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "withdateranges": true,
+      "allow_symbol_change": true,
+      "hide_side_toolbar": false,
+      "calendar": true,
+      "studies": ["Volume@tv-basicstudies"],
+      "watchlist": ["NASDAQ:QQQ","NASDAQ:AAPL","NASDAQ:MSFT","NASDAQ:GOOGL","NASDAQ:NVDA","NASDAQ:AMZN","NASDAQ:TSLA"]
+    }
+    </script>
+  </div>
+</body>
+</html>
